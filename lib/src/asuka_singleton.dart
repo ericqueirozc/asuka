@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' as material;
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 final _keyScaff = GlobalKey<material.ScaffoldState>();
@@ -7,7 +6,8 @@ _ListenerInterface? _dialogs;
 Function? _callback;
 
 void _checkBuilderIsInMaterialApp() {
-  assert(_keyScaff.currentState != null, """Add asuka.builder in your MaterialApp;
+  assert(
+      _keyScaff.currentState != null, """Add asuka.builder in your MaterialApp;
 
        return MaterialApp(
          builder: asuka.builder,
@@ -16,7 +16,8 @@ void _checkBuilderIsInMaterialApp() {
 }
 
 void _checkAndInvokeCallback() {
-  assert(_callback != null, "Provide a callback function in the app main file for invoking it.");
+  assert(_callback != null,
+      "Provide a callback function in the app main file for invoking it.");
 
   _callback!();
 }
@@ -28,7 +29,8 @@ void _checkAndInvokeCallback() {
 /// Otherwise, the entry is inserted on top.
 ///
 /// It is an error to specify both `above` and `below`.
-void addOverlay(OverlayEntry entry, {OverlayEntry? below, OverlayEntry? above, bool callback = false}) {
+void addOverlay(OverlayEntry entry,
+    {OverlayEntry? below, OverlayEntry? above, bool callback = false}) {
   _checkBuilderIsInMaterialApp();
   if (callback) _checkAndInvokeCallback();
   if (_keyScaff.currentContext != null) {
@@ -44,10 +46,12 @@ void addOverlay(OverlayEntry entry, {OverlayEntry? below, OverlayEntry? above, b
 /// Otherwise, the entries are inserted on top.
 ///
 /// It is an error to specify both `above` and `below`.
-void ainsertAllOverlay(Iterable<OverlayEntry> entries, {OverlayEntry? below, OverlayEntry? above, bool callback = false}) {
+void ainsertAllOverlay(Iterable<OverlayEntry> entries,
+    {OverlayEntry? below, OverlayEntry? above, bool callback = false}) {
   _checkBuilderIsInMaterialApp();
   if (callback) _checkAndInvokeCallback();
-  Overlay.of(_keyScaff.currentContext!)!.insertAll(entries, below: below, above: above);
+  Overlay.of(_keyScaff.currentContext!)!
+      .insertAll(entries, below: below, above: above);
 }
 
 /// Shows a [SnackBar] at the bottom of the scaffold.
@@ -65,31 +69,55 @@ void ainsertAllOverlay(Iterable<OverlayEntry> entries, {OverlayEntry? below, Ove
 /// animation), use [removeCurrentSnackBar].
 ///
 /// See [Scaffold.of] for information about how to obtain the [ScaffoldState].
-material.ScaffoldFeatureController<material.SnackBar, material.SnackBarClosedReason> showSnackBar(material.SnackBar snackbar,
-    {bool callback = false}) {
+material.ScaffoldFeatureController<material.SnackBar,
+        material.SnackBarClosedReason>
+    showSnackBar(material.SnackBar snackbar, {bool callback = false}) {
   _checkBuilderIsInMaterialApp();
   if (callback) _checkAndInvokeCallback();
-  return ScaffoldMessenger.of(_keyScaff.currentState!.context).showSnackBar(snackbar);
+  return material.ScaffoldMessenger.of(_keyScaff.currentState!.context)
+      .showSnackBar(snackbar);
 }
 
 /// Removes the current [SnackBar] (if any) immediately.
 ///
 /// The removed snack bar does not run its normal exit animation. If there are
 /// any queued snack bars, they begin their entrance animation immediately.
-void removeCurrentSnackBar({material.SnackBarClosedReason reason = material.SnackBarClosedReason.remove, bool callback = false}) {
+void removeCurrentSnackBar(
+    {material.SnackBarClosedReason reason =
+        material.SnackBarClosedReason.remove,
+    bool callback = false}) {
   _checkBuilderIsInMaterialApp();
   if (callback) _checkAndInvokeCallback();
-  return ScaffoldMessenger.of(_keyScaff.currentState!.context).removeCurrentSnackBar(reason: reason);
+  return material.ScaffoldMessenger.of(_keyScaff.currentState!.context)
+      .removeCurrentSnackBar(reason: reason);
 }
 
 /// Removes the current [SnackBar] by running its normal exit animation.
 ///
 /// The closed completer is called after the animation is complete.
-void hideCurrentSnackBar({material.SnackBarClosedReason reason = material.SnackBarClosedReason.remove, bool callback = false}) {
+void hideCurrentSnackBar(
+    {material.SnackBarClosedReason reason =
+        material.SnackBarClosedReason.remove,
+    bool callback = false}) {
   _checkBuilderIsInMaterialApp();
   if (callback) _checkAndInvokeCallback();
   //return _keyScaff.currentState!.hideCurrentSnackBar(reason: reason);
-  return ScaffoldMessenger.of(_keyScaff.currentState!.context).hideCurrentSnackBar(reason: reason);
+  return material.ScaffoldMessenger.of(_keyScaff.currentState!.context)
+      .hideCurrentSnackBar(reason: reason);
+}
+
+//TODO:adicionar doc do banner
+
+material.ScaffoldFeatureController<material.MaterialBanner,
+        material.MaterialBannerClosedReason>
+    showMaterialBanner(material.MaterialBanner banner) {
+  return material.ScaffoldMessenger.of(_keyScaff.currentState!.context)
+      .showMaterialBanner(banner);
+}
+
+void hideCurrentMaterialBanner() {
+  return material.ScaffoldMessenger.of(_keyScaff.currentState!.context)
+      .hideCurrentMaterialBanner();
 }
 
 /// Shows a material design bottom sheet in the nearest [Scaffold]. To show
@@ -118,8 +146,13 @@ void hideCurrentSnackBar({material.SnackBarClosedReason reason = material.SnackB
 /// to a menu or a dialog and prevents the user from interacting with the rest
 /// of the app. Modal bottom sheets can be created and displayed with the
 /// [showModalBottomSheet] function.
-material.PersistentBottomSheetController<T> showBottomSheet<T>(Widget Function(BuildContext) builder,
-    {Color? backgroundColor, double? elevation, ShapeBorder? shape, Clip? clipBehavior, bool callback = false}) {
+material.PersistentBottomSheetController<T> showBottomSheet<T>(
+    Widget Function(BuildContext) builder,
+    {Color? backgroundColor,
+    double? elevation,
+    ShapeBorder? shape,
+    Clip? clipBehavior,
+    bool callback = false}) {
   _checkBuilderIsInMaterialApp();
   if (callback) _checkAndInvokeCallback();
   return _keyScaff.currentState!.showBottomSheet(
@@ -297,8 +330,9 @@ Widget builder(BuildContext context, Widget? child) {
   );
 }
 
-material.HeroController get asukaHeroController =>
-    HeroController(createRectTween: (begin, end) => MaterialRectCenterArcTween(begin: begin, end: end));
+material.HeroController get asukaHeroController => HeroController(
+    createRectTween: (begin, end) =>
+        material.MaterialRectCenterArcTween(begin: begin, end: end));
 
 class _BuildPage extends StatefulWidget {
   final Widget? child;
